@@ -1,0 +1,9 @@
+
+gcloud compute instances stop jenkins-master   --project jenkins-cpo200-rsk
+gcloud compute instances stop build-agent-test --project jenkins-cpo200-rsk
+gcloud compute instances stop guestbook-node   --project jenkins-cpo200-rsk
+gcloud compute instances stop build-node-test  --project jenkins-cpo200-rsk
+
+
+gcloud compute instances stop labs             --project workstation-cpo200-rsk
+

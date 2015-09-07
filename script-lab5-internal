@@ -1,0 +1,15 @@
+#! /bin/bash
+#
+# File: script-lab5-internal
+#
+# Purpose: Script to be run on jenkins-master
+
+cd
+
+git clone https://github.com/GoogleCloudPlatformTraining/cpo200-jenkins.git
+
+cd cp200-jenkins
+
+./install-jenkins
+
+

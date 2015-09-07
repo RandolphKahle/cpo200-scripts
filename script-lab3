@@ -1,0 +1,19 @@
+#! /bin/bash
+#
+# File: script-lab3
+#
+# Purpose: Creates the jenkins networking
+
+gcloud compute  networks create jenkins-net --range 10.0.0.0/24
+
+gcloud compute firewall-rules create jenkins-net-allow-ssh      --allow tcp:22                       --network jenkins-net --target-tags ssh   --source-ranges 104.197.45.226
+
+gcloud compute firewall-rules create jenkins-net-allow-internal --allow tcp:1-65535,udp:1-65535,icmp --network jenkins-net                     --source-ranges 10.0.0.0/24
+
+gcloud compute firewall-rules create jenkins-net-allow-http     --allow tcp:80                       --network jenkins-net --target-tags http  --source-ranges 0.0.0.0/0
+
+gcloud compute instances create test-01 --network jenkins-net tags ssh,http
+
+gcloud compute instances create test-02 --network jenkins-net
+
+

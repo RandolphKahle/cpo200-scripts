@@ -1,0 +1,13 @@
+# File: metadata2
+#
+# Purpose: Example metadata query
+
+
+echo ""
+echo "Hanging query for instance tags"
+
+curl "http://metadata/computeMetadata/v1/instance/tags?wait_for_change=true" -H "Metadata-Flavor: Google"
+
+echo ""
+echo ""
+

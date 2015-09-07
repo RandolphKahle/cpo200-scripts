@@ -1,0 +1,23 @@
+#! /bin/bash
+#
+# File: create-jenkins-master-from-image
+#
+# Purpose: 
+#  Create a running jenkins-master instance from a previously saved
+#  image.
+
+echo 'About to delete jenkins-master'
+gcloud compute instances delete jenkins-master -q
+echo 'About to delete jenkins-master (disk)'
+gcloud compute disks delete jenkins-master -q
+
+echo "About to create jenkins-master from ${1}"
+gcloud compute instances create jenkins-master \
+  --network jenkins-net \
+  --tags ssh,http \
+  --image $1 \
+  --scopes=\
+https://www.googleapis.com/auth/compute,\
+https://www.googleapis.com/auth/devstorage.full_control,\
+https://www.googleapis.com/auth/logging.write,\
+https://www.googleapis.com/auth/projecthosting

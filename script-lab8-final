@@ -1,0 +1,35 @@
+#! /bin/bash
+#
+# File: script-lab8-final
+#
+# Purpose: automate the remaining steps in Lab 8
+
+echo 'Stopping build-node-foundation'
+gcloud compute instances stop build-node-foundation 
+
+echo 'Create build-node-image based on build-node foundation'
+gcloud compute images    delete build-node-image      --user-output-enabled false -q
+gcloud compute instances delete build-node-foundation --keep-disks boot -q
+gcloud compute images    create build-node-image      --source-disk build-node-foundation -q
+gcloud compute disks     delete build-node-foundation --user-output-enabled false -q
+gcloud compute instances delete build-node-test       --user-output-enabled false -q
+
+echo 'Create build-node-test based on new image'
+gcloud compute instances create build-node-test \
+  --machine-type n1-standard-1 \
+  --network jenkins-net \
+  --tags ssh \
+  --image build-node-image \
+  --scopes \
+https://www.googleapis.com/auth/devstorage.read_write,\
+https://www.googleapis.com/auth/compute
+#https://www.googleapis.com/auth/cloud-platform
+
+echo 'Sleep for 30 seconds to allow GCP to catch up'
+sleep 30
+gcloud compute copy-files script-lab8-internal-final randy@build-node-test:
+gcloud compute ssh build-node-test
+
+
+
+

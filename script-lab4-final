@@ -1,0 +1,18 @@
+#! /bin/bash
+#
+# File: script-lab4-final
+#
+# Purpose: Creates the java-foundation image from
+#          the java-foundation instance.
+
+
+echo 'Stopping java-foundation instance'
+gcloud compute instances stop java-foundation --quiet --user-output-enabled false
+
+echo 'Deleting java-foundation'
+gcloud compute instances delete java-foundation --keep-disks boot --quiet --user-output-enabled false
+echo "Creating java-foundation image debian-openjdk-java7-jre-v${1}"
+gcloud compute images create "debian-openjdk-java7-jre-v${1}"  --source-disk java-foundation --quiet --user-output-enabled false
+
+echo 'Delete java-foundation disk'
+gcloud compute disks delete java-foundation  --quiet --user-output-enabled false

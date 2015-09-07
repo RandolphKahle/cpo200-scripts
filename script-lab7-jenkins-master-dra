@@ -1,0 +1,21 @@
+#! /bin/bash
+#
+# File: script-lab7-jenkins-master-dra
+#
+# Purpose: create GCS DRA bucket and backup Jenkins
+
+echo 'Remove the DRA bucket'
+gsutil rm -fr gs://jenkins-backup-cpo200-rsk-21050816
+gsutil rb gs://jenkins-backup-cpo200-rsk-21050816
+
+
+echo 'Create a DRA bucket'
+gsutil mb -c DRA -l US-CENTRAL1 gs://jenkins-backup-cpo200-rsk-21050816
+
+echo 'Backup /var/log'
+cd /var/log
+sudo gsutil -m rsync -r . gs://jenkins-backup-cpo200-rsk-21050816
+
+echo 'Display contents of DRA bucket'
+gsutil ls -r gs://jenkins-backup-cpo200-rsk-21050816
+

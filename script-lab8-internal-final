@@ -1,0 +1,32 @@
+#! /bin/bash
+#
+# File: script-lab8-internal-final
+#
+# Purpose: Script that finishes the steps in Lab 8
+#
+
+cd
+rm -fr cpo200-repository-02
+rm -fr cpo200-repository-01
+
+git clone https://github.com/GoogleCloudPlatformTraining/cpo200-repository-02.git
+
+cd cpo200-repository-02
+
+
+echo 'Docker builds the guestbook container'
+docker build -t guestbook .
+
+echo 'Docker tags the guestbook container'
+docker tag guestbook gcr.io/jenkins-cpo200/guestbook
+
+echo 'Docker pushes the guestbook container to GCR'
+gcloud docker push gcr.io/jenkins-cpo200/guestbook
+
+
+
+# Delete after testing
+git clone https://github.com/GoogleCloudPlatformTraining/cpo200-repository-01.git
+cd cpo200-repository-01
+./build.sh
+

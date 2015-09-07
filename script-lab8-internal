@@ -1,0 +1,33 @@
+#! /bin/bash
+#
+# File: script-lab8-internal
+#
+# Purpose: Script to be run on jenkins-master to complete lab8
+#          setup steps.
+
+cd
+echo 'Fetch slave.jar'
+wget -q -O slave.jar http://jenkins-master/jnlpJars/slave.jar
+
+ls -l
+
+echo 'Clone Git repository with remaining setup script'
+git clone https://github.com/GoogleCloudPlatformTraining/CPO200-Google-Container-Registry.git
+
+cp CPO200-Google-Container-Registry/swarm-setup.sh .
+
+echo 'Run setup script'
+./swarm-setup.sh
+
+# Moved these steps to script
+#
+#echo 'Set startup configuration for Swarm'
+#sudo update-rc.d swarm defaults
+#
+#echo 'Update Cloud SDK for the build node so we can carry out all of our tasks'
+#sudo gcloud components update
+
+# Remove ourselves as we will become an image
+rm /home/randy/script-lab8-internal
+
+

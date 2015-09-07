@@ -1,0 +1,12 @@
+#! /bin/bash
+#
+# File: set-project-guestbook
+#
+# Purpose: Sets the default project to 
+#          the Guestbook project.
+
+echo 'Setting the defaul to the Guestbooks project'
+gcloud config set project guestbook-cpo200
+gcloud config list
+
+

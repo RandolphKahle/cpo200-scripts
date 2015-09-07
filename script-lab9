@@ -1,0 +1,38 @@
+#! /bin/bash
+#
+# File: script-lab9
+#
+# Purpose: automate the steps required to create an instance group
+#          of build-nodes.
+
+
+# Delete the build nod instances
+gcloud compute instances delete build-node-v20150815-01 --quiet --user-output-enabled false
+gcloud compute instances delete build-node-v20150815-02 --quiet --user-output-enabled false
+
+
+# Create the first build-node
+gcloud compute instances create build-node-v20150815-01 \
+--image build-node-image \
+--network jenkins-net \
+--tags ssh \
+--boot-disk-type pd-ssd \
+--scopes \
+https://www.googleapis.com/auth/cloud-platform,\
+https://www.googleapis.com/auth/compute,\
+https://www.googleapis.com/auth/devstorage.full_control,\
+https://www.googleapis.com/auth/logging.write
+
+#Create the second build-node
+gcloud compute instances create build-node-v20150815-02 \
+--image build-node-image \
+--network jenkins-net \
+--tags ssh \
+--boot-disk-type pd-ssd \
+--scopes \
+https://www.googleapis.com/auth/cloud-platform,\
+https://www.googleapis.com/auth/compute,\
+https://www.googleapis.com/auth/devstorage.full_control,\
+https://www.googleapis.com/auth/logging.write
+
+

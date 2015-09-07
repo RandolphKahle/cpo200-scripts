@@ -1,0 +1,22 @@
+
+#! /bin/bash
+#
+# File: save-instance-as-image
+#
+# Purpose:
+#  Saves an instance provided as argument $1 as an image name provided as argument $2
+#
+# Pre conditions
+#  The instance provided as $1 is running
+#  There exists no image with the name provided in $2
+#
+# Issues:
+#  The scope information from the running instance are saved to a YAML file
+#  but they are not (yet) automatically reused when reconstituting the instance. 
+
+gcloud compute instances describe $1 > $2.yaml
+gcloud compute instances stop $1
+gcloud compute instances delete $1 --keep-disks boot
+gcloud compute images create $2 --source-disk $1
+gcloud compute disks delete $1
+

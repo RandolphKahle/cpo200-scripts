@@ -1,0 +1,30 @@
+#! /bin/bash
+#
+# File: script-lab8
+#
+# Purpose: automate the steps required to create a Jenkins worker node
+
+echo 'Delete instance build-node-foundation'
+gcloud compute instances delete build-node-foundation  -q
+echo 'Delete disk     build-node-foundation'
+gcloud compute disks delete build-node-foundation -q
+echo 'Delete image    build-node-image'
+gcloud compute images delete build-node-image -q
+echo 'Delete instance build-node-test'
+gcloud compute instances delete build-node-test -q
+echo 'Delete image    guestbook-image'
+gcloud compute instances delete guestbook-image -q
+
+echo 'Create instance build-node-foundation'
+gcloud compute instances create build-node-foundation \
+  --network jenkins-net \
+  --tags ssh \
+  --image debian-openjdk-java7-jre-v20150822 \
+
+echo 'Sleep for 30 seconds to allow GCP to catch up'
+sleep 30
+
+echo 'Copy continuation files to build-node-foundation'
+gcloud compute copy-files script-lab8-internal randy@build-node-foundation:
+echo 'SSH to build-node-foundation'
+gcloud compute ssh build-node-foundation

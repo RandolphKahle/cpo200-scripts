@@ -1,0 +1,32 @@
+#! /bin/bash
+#
+# File: script-lab5
+#
+# Purpose: Creates the jenkins-master instance and copies scripts
+#          to the user home directory to finish creation
+
+echo 'Deleting static address'
+gcloud compute addresses delete jenkins-master-address --quiet --user-output-enabled false
+
+echo 'Deleting jenkins-master instance...'
+gcloud compute instances delete jenkins-master --quiet --user-output-enabled false
+
+echo 'Creating the jenkins-master-address'
+gcloud compute addresses create jenkins-master-address --quiet --user-output-enabled false
+
+echo 'Creating the jenkins-master instance'
+gcloud compute instances create jenkins-master \
+    --network jenkins-net \
+    --tags ssh,http \
+    --image debian-openjdk-java7-jre-v20150822 \
+    --scopes=https://www.googleapis.com/auth/compute,https://www.googleapis.com/auth/devstorage.full_control,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/projecthosting \
+    --address jenkins-master-address --quiet --user-output-enabled false
+
+echo 'Copying files to jenkins-master'
+gcloud compute copy-files script-lab5-internal randy@jenkins-master:
+
+echo 'Establishing an SSH connection with jenkins-master'
+gcloud compute ssh randy@jenkins-master
+
+
+

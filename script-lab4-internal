@@ -1,0 +1,27 @@
+#! /bin/bash
+#
+# File: script-lab4-internal
+#
+# Purpose: Script to be run on java-foundation 
+#          to complete lab4 setup steps.
+
+cd
+
+echo 'Update APT caches'
+sudo apt-get -qq update
+
+echo 'Install OpenJDK Java 7'
+sudo apt-get install -y -qq openjdk-7-jre
+
+java -version
+
+echo 'Install Git'
+sudo apt-get install -y -qq git
+
+
+cd
+
+# Get rid of ourselves
+rm script-lab4-internal
+
+

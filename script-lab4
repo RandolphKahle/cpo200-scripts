@@ -1,0 +1,28 @@
+#! /bin/bash
+#
+# File: script-lab4
+#
+# Purpose: Creates the java-foundation instance used
+#          to create the corresponding image. This 
+#          copies scripts to the user home directory 
+#          to finish creation
+
+echo 'Deleting the java-foundation instance'
+gcloud compute instances delete java-foundation  --quiet --user-output-enabled false
+gcloud compute disks delete java-foundation      --quiet --user-output-enabled false
+
+echo 'Creating the java-foundation instance'
+gcloud compute instances create java-foundation \
+    --network jenkins-net \
+    --tags ssh \
+    --image backports-debian-7-wheezy-v20150603 \
+    --image-project debian-cloud \
+    --machine-type g1-small
+
+echo 'Copying files to java-foundation'
+gcloud compute copy-files script-lab4-internal randy@java-foundation:
+
+echo 'Establishing an SSH connection with java-foundation'
+gcloud compute ssh randy@java-foundation
+
+

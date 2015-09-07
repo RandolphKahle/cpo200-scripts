@@ -1,0 +1,7 @@
+# File: metadata1
+#
+# Purpose: Example metadata query
+
+
+curl "http://metadata/computeMetadata/v1/instance/disks/0/mode" -H "Metadata-Flavor: Google"
+

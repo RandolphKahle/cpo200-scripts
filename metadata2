@@ -1,0 +1,13 @@
+# File: metadata2
+#
+# Purpose: Example metadata query
+
+
+echo ""
+echo "Query for inventory of disks"
+
+curl "http://metadata/computeMetadata/v1/instance/disks/" -H "Metadata-Flavor: Google"
+
+echo ""
+echo ""
+

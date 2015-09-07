@@ -1,0 +1,39 @@
+#! /bin/bash
+#
+# File: script-lab7
+#
+# Purpose: create GCS buckets and setup for Jenkins backup
+
+
+echo 'Remove previous buckets'
+gsutil rm -fr gs://jenkins-cpo200-rsk-21050816/*
+gsutil rm gs://jenkins-cpo200-rsk-21050816
+
+
+echo 'Remove Git repository'
+rm -fr CPO200-Google-Cloud-Storage
+
+echo 'Create NearLine bucket'
+gsutil mb gs://jenkins-cpo200-rsk-20150816
+
+
+echo 'Get lifecycle document from Git repository'
+git clone https://github.com/GoogleCloudPlatformTraining/CPO200-Google-Cloud-Storage
+mv CPO200-Google-Cloud-Storage/lifecycle.json .
+
+cat lifecycle.son
+
+echo 'Setting lifecycle for storage bucket'
+gsutil lifecycle set lifecycle.json gs://jenkins-cpo200-rsk-20150816
+
+echo 'Displaying the lifecycle for the bucket'
+gsutil lifecycle get gs://jenkins-cpo200-rsk-20150816
+
+echo 'Copy internal commands to jenkins-master'
+gcloud compute copy-files script-lab7-jenkins-master-dra randy@jenkins-master:
+
+echo 'SSH to jenkins-master'
+gcloud compute ssh jenkins-master
+
+
+

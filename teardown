@@ -1,0 +1,17 @@
+#! /bin/bash
+
+
+echo 'About to delete build-agent-foundation'
+gcloud compute instances delete build-agent-foundation -q
+echo 'About to delete jenkins-master'
+gcloud compute instances delete jenkins-master -q
+echo 'About to delete jenkins-master-address'
+gcloud compute addresses delete jenkins-master-address -q
+
+echo 'About to delete jenkins-restore'
+gcloud compute instances delete jenkins-restore --zone us-central1-a -q
+echo 'About to delete jenkins-snapshot-1'
+gcloud compute snapshots delete jenkins-snapshot-1  -q
+echo 'About to delete jenkins-restore (disk)'
+gcloud compute disks     delete jenkins-restore --zone us-central1-a -q
+

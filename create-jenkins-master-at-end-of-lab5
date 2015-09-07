@@ -1,0 +1,24 @@
+#! /bin/bash
+#
+# File: create-jenkins-master-at-end-of-lab5
+#
+# Purpose: Create a running jenkins-master instance configured as it should at the end
+#          of lab5
+
+echo 'About to delete jenkins-master'
+gcloud compute instances delete jenkins-master -q
+echo 'About to delete jenkins-master (disk)'
+gcloud compute disks delete jenkins-master -q
+
+echo 'About to create jenkins-master from jenkins-master-image-lab5-end'
+gcloud compute instances create jenkins-master \
+  --network jenkins-net \
+  --tags ssh,http \
+  --image jenkins-master-image-lab5-end \
+  --scopes=\
+https://www.googleapis.com/auth/compute,\
+https://www.googleapis.com/auth/devstorage.full_control,\
+https://www.googleapis.com/auth/logging.write,\
+https://www.googleapis.com/auth/projecthosting
+
+## We are ignoring the static IP steps
